@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: cycleiq
+    env: node
+    buildCommand: "yarn install"
+    startCommand: "node app.js"
+    envVars:
+      - key: MONGO_URI
+        sync: false   # must be set in Render dashboard
+      - key: SESSION_SECRET
+        sync: false   # must be set in Render dashboard

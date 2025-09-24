@@ -5,10 +5,10 @@ import MongoStore from "connect-mongo";
 import bcrypt from "bcryptjs";
 import path from "path";
 import { fileURLToPath } from "url";
-import User from "./models/User.js";
 import dotenv from "dotenv";
-dotenv.config();
+import User from "./models/User.js";
 
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -22,21 +22,15 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("✅ MongoDB Atlas connected"))
   .catch(err => console.error("MongoDB error:", err));
 
-// Session store
+// Session store (Atlas only)
 app.use(session({
-  secret: process.env.SESSION_SECRET,
+  secret: process.env.SESSION_SECRET || "fallback-secret",
   resave: false,
   saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: process.env.MONGO_URI })
-}));
-
-
-// Session store
-app.use(session({
-  secret: "super-secret-key",
-  resave: false,
-  saveUninitialized: false,
-  store: MongoStore.create({ mongoUrl: "mongodb://127.0.0.1:27017/recycling_saas" })
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGO_URI,
+    ttl: 14 * 24 * 60 * 60 // 14 days
+  })
 }));
 
 // Auth middleware
@@ -115,14 +109,6 @@ app.get("/logout", (req, res) => {
   });
 });
 
-
-// ------------------------------------------------ //
-
-// Start server
-app.listen(PORT, () => {
-  console.log(`Server live at http://localhost:${PORT}`);
-});
-
 // Dashboards (protected)
 app.get("/dashboard/user", requireAuth("USER"), (req, res) => {
   res.render("dashboards/user", { user: req.session });
@@ -138,4 +124,11 @@ app.get("/dashboard/sponsor", requireAuth("SPONSOR"), (req, res) => {
 
 app.get("/dashboard/admin", requireAuth("ADMIN"), (req, res) => {
   res.render("dashboards/admin", { user: req.session });
+});
+
+// ------------------------------------------------ //
+
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server live at http://localhost:${PORT}`);
 });
