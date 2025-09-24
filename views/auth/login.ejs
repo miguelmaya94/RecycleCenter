@@ -1,0 +1,14 @@
+<%- include('../partials/head') %>
+<main class="mx-auto max-w-md px-4 py-12">
+  <h2 class="text-2xl font-bold mb-6">Log In</h2>
+  <form method="POST" action="/login" class="grid gap-4">
+    <input type="email" name="email" placeholder="Email" class="border p-2 rounded" required>
+    <input type="password" name="password" placeholder="Password" class="border p-2 rounded" required>
+    <button class="bg-blue-600 text-white py-2 rounded">Log In</button>
+  </form>
+  <br>
+     <a href="/signup" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+      Sign up
+    </a>
+</main>
+<%- include('../partials/foot') %>

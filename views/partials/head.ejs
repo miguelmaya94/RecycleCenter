@@ -7,4 +7,5 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="/css/app.css">
 </head>
-<body class="bg-slate-50 text-slate-800">
+<body class="<%= typeof bodyClass !== 'undefined' ? bodyClass : 'bg-slate-50 text-slate-800' %>">
+
