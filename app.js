@@ -68,7 +68,8 @@ app.get("/login", (req, res) => {
 });
 
 app.get("/signup", (req, res) => {
-  res.render("auth/signup");
+  res.render('auth/signup', { error: null, old: {} });
+
 });
 
 // Signup

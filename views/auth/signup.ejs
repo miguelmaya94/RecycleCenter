@@ -1,16 +1,100 @@
 <%- include('../partials/head') %>
 <main class="mx-auto max-w-md px-4 py-12">
   <h2 class="text-2xl font-bold mb-6">Sign Up</h2>
-  <form method="POST" action="/signup" class="grid gap-4">
-    <input type="text" name="name" placeholder="Name" class="border p-2 rounded" required>
-    <input type="email" name="email" placeholder="Email" class="border p-2 rounded" required>
-    <input type="password" name="password" placeholder="Password" class="border p-2 rounded" required>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div class="mb-4 rounded border border-red-300 bg-red-50 p-3 text-red-700"><%= error %></div>
+  <% } %>
+
+  <form id="signupForm" method="POST" action="/signup" class="grid gap-4" novalidate>
+    <input
+      type="text"
+      name="name"
+      placeholder="Name"
+      class="border p-2 rounded"
+      value="<%= (old && old.name) || '' %>"
+      required
+    >
+
+    <input
+      type="email"
+      name="email"
+      placeholder="Email"
+      class="border p-2 rounded"
+      value="<%= (old && old.email) || '' %>"
+      required
+    >
+
+    <input
+      id="password"
+      type="password"
+      name="password"
+      placeholder="Password"
+      class="border p-2 rounded"
+      minlength="8"
+      autocomplete="new-password"
+      required
+    >
+
+    <input
+      id="confirmPassword"
+      type="password"
+      name="confirmPassword"
+      placeholder="Confirm Password"
+      class="border p-2 rounded"
+      minlength="8"
+      autocomplete="new-password"
+      required
+    >
+
+    <p id="pwError" class="hidden text-sm text-red-600">Passwords don’t match.</p>
+
     <select name="role" class="border p-2 rounded">
-      <option value="USER">Normal User</option>
-      <option value="BUSINESS">Business</option>
-      <option value="SPONSOR">Sponsor</option>
+      <option value="USER" <%= (old && old.role === 'USER') ? 'selected' : '' %>>Normal User</option>
+      <option value="BUSINESS" <%= (old && old.role === 'BUSINESS') ? 'selected' : '' %>>Business</option>
+      <option value="SPONSOR" <%= (old && old.role === 'SPONSOR') ? 'selected' : '' %>>Sponsor</option>
     </select>
+
     <button class="bg-lime-600 text-white py-2 rounded">Sign Up</button>
   </form>
 </main>
+
+<script>
+  (function () {
+    const form = document.getElementById('signupForm');
+    const pw = document.getElementById('password');
+    const cpw = document.getElementById('confirmPassword');
+    const msg = document.getElementById('pwError');
+
+    function checkMatch() {
+      const match = pw.value === cpw.value;
+      if (!cpw.value) {
+        msg.classList.add('hidden');
+        cpw.classList.remove('border-red-500');
+        return true;
+      }
+      if (!match) {
+        msg.classList.remove('hidden');
+        cpw.classList.add('border-red-500');
+      } else {
+        msg.classList.add('hidden');
+        cpw.classList.remove('border-red-500');
+      }
+      return match;
+    }
+
+    pw.addEventListener('input', checkMatch);
+    cpw.addEventListener('input', checkMatch);
+
+    form.addEventListener('submit', function (e) {
+      // basic HTML validity first
+      if (!form.checkValidity()) return;
+
+      if (!checkMatch()) {
+        e.preventDefault();
+        cpw.focus();
+      }
+    });
+  })();
+</script>
 <%- include('../partials/foot') %>
