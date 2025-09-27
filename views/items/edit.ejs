@@ -1,0 +1,18 @@
+<form method="POST" action="/items/<%= item._id ? item._id : 'new' %>/save" class="bg-white p-6 rounded shadow grid grid-cols-2 gap-4">
+  <h2 class="col-span-2 text-xl font-semibold italic">Item Management</h2>
+
+  <label>Item No <input class="w-full border rounded px-3 py-2" name="itemNo" type="number" value="<%= item.itemNo || '' %>"></label>
+  <label>Item <input class="w-full border rounded px-3 py-2" name="item" value="<%= item.item || '' %>"></label>
+  <label>Subitem <input class="w-full border rounded px-3 py-2" name="subItem" value="<%= item.subItem || '' %>"></label>
+  <label>Description <input class="w-full border rounded px-3 py-2" name="description" required value="<%= item.description || '' %>"></label>
+  <label>CRV $ <input class="w-full border rounded px-3 py-2" name="crv" type="number" step="0.01" value="<%= item.crv || 0 %>"></label>
+  <label>Price $ <input class="w-full border rounded px-3 py-2" name="price" type="number" step="0.01" value="<%= item.price || 0 %>"></label>
+  <label>Redem Rate <input class="w-full border rounded px-3 py-2" name="redeemRate" type="number" step="0.01" value="<%= item.redeemRate || 0 %>"></label>
+  <label>Weight <input class="w-full border rounded px-3 py-2" name="weight" type="number" step="0.000001" value="<%= item.weight || 0 %>"></label>
+  <label class="flex items-center gap-2"><input type="checkbox" name="scrap" value="true" <%= item.scrap ? 'checked' : '' %>> Scrap</label>
+
+  <div class="col-span-2 flex justify-end gap-3">
+    <a href="/items" class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300">Cancel</a>
+    <button class="px-4 py-2 bg-lime-300 rounded hover:bg-lime-400">Save & Close</button>
+  </div>
+</form>

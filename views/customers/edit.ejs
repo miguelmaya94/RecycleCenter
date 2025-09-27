@@ -1,0 +1,31 @@
+<form method="POST" action="/customers/<%= customer._id ? customer._id : 'new' %>/save" class="bg-white rounded shadow p-6 grid grid-cols-2 gap-4">
+  <div class="col-span-2 bg-lime-300 -mx-6 -mt-6 px-6 py-4 rounded-t flex items-center justify-between">
+    <h1 class="text-xl font-semibold italic"><%= customer._id ? 'Edit Customer' : 'New Customer' %></h1>
+    <div class="flex gap-2">
+      <a href="/customers" class="px-3 py-2 rounded bg-white/70 hover:bg-white">Cancel</a>
+      <button class="px-4 py-2 rounded bg-white hover:bg-gray-100">Save</button>
+    </div>
+  </div>
+
+  <label class="col-span-2">
+    <span class="block text-sm mb-1">Name</span>
+    <input name="name" required class="w-full border rounded px-3 py-2" value="<%= customer.name || '' %>">
+  </label>
+
+  <label class="col-span-2">
+    <span class="block text-sm mb-1">Address</span>
+    <input name="address" class="w-full border rounded px-3 py-2" value="<%= customer.address || '' %>">
+  </label>
+
+  <label><span class="block text-sm mb-1">City</span><input name="city" class="w-full border rounded px-3 py-2" value="<%= customer.city || '' %>"></label>
+  <label><span class="block text-sm mb-1">State</span><input name="state" maxlength="2" class="w-full border rounded px-3 py-2" value="<%= customer.state || '' %>"></label>
+  <label><span class="block text-sm mb-1">Zip</span><input name="zip" class="w-full border rounded px-3 py-2" value="<%= customer.zip || '' %>"></label>
+  <div></div>
+  <label><span class="block text-sm mb-1">Driver License</span><input name="driverLicense" class="w-full border rounded px-3 py-2" value="<%= customer.driverLicense || '' %>"></label>
+  <label><span class="block text-sm mb-1">Plate</span><input name="plate" class="w-full border rounded px-3 py-2" value="<%= customer.plate || '' %>"></label>
+
+  <div class="col-span-2 flex justify-end gap-3 mt-2">
+    <a href="/customers" class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300">Close</a>
+    <button class="px-4 py-2 bg-lime-300 rounded hover:bg-lime-400">Save & Close</button>
+  </div>
+</form>

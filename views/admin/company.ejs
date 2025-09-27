@@ -1,0 +1,15 @@
+<form method="POST" class="bg-white p-6 rounded shadow grid grid-cols-2 gap-4">
+  <h2 class="col-span-2 text-xl font-semibold italic">Company Info</h2>
+  <label>Company Name <input class="w-full border rounded px-3 py-2" name="companyName" value="<%= doc.companyName||'' %>"></label>
+  <label>Recycling Number <input class="w-full border rounded px-3 py-2" name="recyclingNumber" value="<%= doc.recyclingNumber||'' %>"></label>
+  <label>Address <input class="w-full border rounded px-3 py-2" name="address" value="<%= doc.address||'' %>"></label>
+  <label>City <input class="w-full border rounded px-3 py-2" name="city" value="<%= doc.city||'' %>"></label>
+  <label>State <input class="w-full border rounded px-3 py-2" name="state" value="<%= doc.state||'' %>"></label>
+  <label>Zip <input class="w-full border rounded px-3 py-2" name="zip" value="<%= doc.zip||'' %>"></label>
+  <label>Phone <input class="w-full border rounded px-3 py-2" name="phone" value="<%= doc.phone||'' %>"></label>
+  <label>Fax <input class="w-full border rounded px-3 py-2" name="fax" value="<%= doc.fax||'' %>"></label>
+  <div class="col-span-2 flex justify-end gap-3">
+    <a class="px-3 py-2 bg-gray-200 rounded hover:bg-gray-300" href="/">Cancel</a>
+    <button class="px-4 py-2 bg-lime-300 rounded hover:bg-lime-400">Save & Close</button>
+  </div>
+</form>

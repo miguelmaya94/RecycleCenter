@@ -1,0 +1,82 @@
+
+<form method="POST" action="/invoices" class="bg-white p-6 rounded shadow">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold italic">Purchasing Invoice</h2>
+    <span class="text-sm opacity-70"><%= new Date().toLocaleString() %></span>
+  </div>
+
+  <div class="grid grid-cols-4 gap-4 mt-4">
+    <label class="col-span-2">Customer
+      <select name="customerId" class="input">
+        <option value="">— Cash Customer —</option>
+        <% customers.forEach(c => { %>
+          <option value="<%= c._id %>"><%= c.name %></option>
+        <% }) %>
+      </select>
+    </label>
+  </div>
+
+  <table class="w-full mt-6 text-sm">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="p-2 text-left">Item</th>
+        <th class="p-2">Gross Lbs</th>
+        <th class="p-2">Rate Lbs</th>
+        <th class="p-2">Net Lbs</th>
+        <th class="p-2">Price</th>
+        <th class="p-2">Ext Price</th>
+      </tr>
+    </thead>
+    <tbody id="lines">
+      <% for (let r=0; r<3; r++) { %>
+      <tr class="border-b">
+        <td class="p-2">
+          <select name="itemId[]" class="input">
+            <option value=""></option>
+            <% items.forEach(i => { %>
+              <option value="<%= i._id %>"><%= i.description %></option>
+            <% }) %>
+          </select>
+        </td>
+        <td class="p-2"><input class="input num" name="grossLbs[]" type="number" step="0.01"></td>
+        <td class="p-2"><input class="input num" name="rateLbs[]" type="number" step="0.01"></td>
+        <td class="p-2"><input class="input num" data-net readonly></td>
+        <td class="p-2"><input class="input num" name="price[]" type="number" step="0.01"></td>
+        <td class="p-2"><input class="input num" data-ext readonly></td>
+      </tr>
+      <% } %>
+    </tbody>
+  </table>
+
+  <div class="flex justify-end gap-6 mt-4 text-lg">
+    <div>Total Net Lbs: <span id="tNet">0</span></div>
+    <div>Total Amount: $<span id="tAmt">0.00</span></div>
+  </div>
+
+  <div class="flex justify-end gap-3 mt-6">
+    <a href="/" class="px-3 py-2 bg-gray-200 rounded">Close Form</a>
+    <button class="px-4 py-2 bg-lime-300 rounded">Save</button>
+  </div>
+</form>
+
+<script>
+function recalc(){
+  let tNet=0, tAmt=0;
+  document.querySelectorAll('#lines tr').forEach(row=>{
+    const g = parseFloat(row.querySelector('[name="grossLbs[]"]').value||0);
+    const r = parseFloat(row.querySelector('[name="rateLbs[]"]').value||0);
+    const p = parseFloat(row.querySelector('[name="price[]"]').value||0);
+    const net = Math.max(0, g - r);
+    const ext = +(net * p).toFixed(2);
+    row.querySelector('[data-net]').value = net.toFixed(2);
+    row.querySelector('[data-ext]').value = ext.toFixed(2);
+    tNet += net; tAmt += ext;
+  });
+  document.getElementById('tNet').textContent = tNet.toFixed(2);
+  document.getElementById('tAmt').textContent = tAmt.toFixed(2);
+}
+document.addEventListener('input', e => {
+  if(e.target.classList.contains('num')) recalc();
+});
+</script>
+<style>.input{ @apply border rounded px-2 py-1 w-full; }</style>

@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: cycleiq
+    name: recycleCenter
     env: node
     buildCommand: "yarn install"
     startCommand: "node app.js"

@@ -1,0 +1,39 @@
+<div class="bg-white rounded shadow p-6">
+  <div class="flex flex-wrap items-center justify-between gap-3">
+    <h1 class="text-xl font-semibold italic">Customers</h1>
+
+    <form method="GET" action="/customers" class="flex items-center gap-2">
+      <input type="text" name="q" value="<%= q || '' %>" placeholder="Search by name..." class="w-full md:w-64 border rounded px-3 py-2"/>
+      <button class="px-3 py-2 rounded bg-gray-200 hover:bg-gray-300">Search</button>
+    </form>
+
+    <a href="/customers/new/edit" class="px-3 py-2 rounded bg-lime-300 hover:bg-lime-400">Add New</a>
+  </div>
+
+  <table class="w-full mt-4 text-sm">
+    <thead>
+      <tr class="bg-gray-100">
+        <th class="p-2 text-left">Name</th><th class="p-2 text-left">Address</th>
+        <th class="p-2">City</th><th class="p-2">State</th><th class="p-2">Zip</th>
+        <th class="p-2">DL</th><th class="p-2">Plate</th><th class="p-2"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% customers.forEach(c => { %>
+        <tr class="border-b">
+          <td class="p-2"><%= c.name %></td>
+          <td class="p-2"><%= c.address || '' %></td>
+          <td class="p-2"><%= c.city || '' %></td>
+          <td class="p-2"><%= c.state || '' %></td>
+          <td class="p-2"><%= c.zip || '' %></td>
+          <td class="p-2"><%= c.driverLicense || '' %></td>
+          <td class="p-2"><%= c.plate || '' %></td>
+          <td class="p-2 text-right"><a class="text-blue-600 hover:underline" href="/customers/<%= c._id %>/edit">Edit</a></td>
+        </tr>
+      <% }) %>
+      <% if (!customers.length) { %>
+        <tr><td class="p-4 text-center text-gray-500" colspan="8">No customers found.</td></tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>

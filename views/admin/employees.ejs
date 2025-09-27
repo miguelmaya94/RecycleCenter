@@ -1,0 +1,166 @@
+<% layout('layouts/layout') %>
+
+<!-- Admin > Employees -->
+<div class="bg-white rounded shadow overflow-hidden">
+  <!-- Header bar -->
+  <div class="bg-lime-300 px-6 py-4 flex items-center justify-between">
+    <h1 class="text-xl font-semibold italic">Management</h1>
+    <div class="flex gap-2">
+      <!-- Add New just clears selection -->
+      <a href="/admin/employees" class="px-3 py-2 rounded bg-white/70 hover:bg-white">Add New</a>
+      <!-- Save button belongs to the form on the right via form attribute -->
+      <button form="empForm" class="px-4 py-2 rounded bg-white">Save</button>
+    </div>
+  </div>
+
+  <div class="p-6 grid grid-cols-12 gap-6">
+    <!-- Left: list -->
+    <aside class="col-span-3">
+      <h2 class="font-medium mb-2">Employees</h2>
+      <div class="border rounded h-[520px] overflow-auto">
+        <ul>
+          <% emps.forEach(e => { %>
+            <li>
+              <a
+                href="/admin/employees?edit=<%= e._id %>"
+                class="block px-3 py-2 border-b hover:bg-gray-50 <%= (current && String(current._id)===String(e._id)) ? 'bg-gray-100 font-medium' : '' %>">
+                <div class="text-sm"><%= (e.firstName||'') + ' ' + (e.lastName||'') %></div>
+                <div class="text-xs text-gray-500"><%= e.username %> • <%= e.accessLevel %></div>
+              </a>
+            </li>
+          <% }) %>
+        </ul>
+      </div>
+    </aside>
+
+    <!-- Right: form -->
+    <section class="col-span-9">
+      <% if (msg) { %>
+        <div class="mb-4 p-3 rounded bg-green-50 text-green-700 text-sm"><%= msg %></div>
+      <% } %>
+      <% if (error) { %>
+        <div class="mb-4 p-3 rounded bg-red-50 text-red-700 text-sm"><%= error %></div>
+      <% } %>
+
+      <form id="empForm"
+            method="POST"
+            action="<%= current && current._id ? '/admin/employees/'+current._id : '/admin/employees' %>"
+            class="grid grid-cols-2 gap-4">
+
+        <div class="col-span-1">
+          <label class="block text-sm mb-1">First Name</label>
+          <input name="firstName" class="input" value="<%= current?.firstName || '' %>">
+        </div>
+
+        <div class="col-span-1">
+          <label class="block text-sm mb-1">Last Name</label>
+          <input name="lastName" class="input" value="<%= current?.lastName || '' %>">
+        </div>
+
+        <div class="col-span-1">
+          <label class="block text-sm mb-1">Username (login)</label>
+          <input name="username" class="input" value="<%= current?.username || '' %>" <%= current? 'readonly' : '' %>>
+        </div>
+
+        <div class="col-span-1">
+          <label class="block text-sm mb-1">Email</label>
+          <input type="email" name="email" class="input" value="<%= current?.email || '' %>">
+        </div>
+
+        <div class="col-span-1">
+          <label class="block text-sm mb-1">Access Level</label>
+          <select name="accessLevel" class="input">
+            <option value="employee" <%= current?.accessLevel==='employee' ? 'selected' : '' %>>Employee</option>
+            <option value="admin"    <%= current?.accessLevel==='admin' ? 'selected' : '' %>>Admin</option>
+          </select>
+        </div>
+
+        <!-- Password section -->
+        <div class="col-span-2 grid grid-cols-2 gap-4">
+          <% if (!current) { %>
+            <!-- New employee → require password -->
+            <div>
+              <label class="block text-sm mb-1">Password</label>
+              <input type="password" name="password" class="input" required>
+            </div>
+            <div>
+              <label class="block text-sm mb-1">Confirm Password</label>
+              <input type="password" name="password2" class="input" required>
+            </div>
+          <% } else { %>
+            <!-- Existing employee → optional reset -->
+            <div class="col-span-2">
+              <label class="inline-flex items-center gap-2 text-sm">
+                <input type="checkbox" id="resetPwToggle" class="h-4 w-4">
+                Reset password
+              </label>
+            </div>
+            <div>
+              <label class="block text-sm mb-1">New Password</label>
+              <input type="password" name="password" class="input" disabled>
+            </div>
+            <div>
+              <label class="block text-sm mb-1">Confirm New Password</label>
+              <input type="password" name="password2" class="input" disabled>
+            </div>
+          <% } %>
+        </div>
+
+        <div class="col-span-2 grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-sm mb-1">Home Phone</label>
+            <input name="homePhone" class="input" value="<%= current?.homePhone || '' %>">
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Mobile Phone</label>
+            <input name="mobilePhone" class="input" value="<%= current?.mobilePhone || '' %>">
+          </div>
+        </div>
+
+        <div class="col-span-2 grid grid-cols-3 gap-4">
+          <div>
+            <label class="block text-sm mb-1">City</label>
+            <input name="city" class="input" value="<%= current?.city || '' %>">
+          </div>
+          <div>
+            <label class="block text-sm mb-1">State</label>
+            <input name="state" class="input" value="<%= current?.state || '' %>">
+          </div>
+          <div>
+            <label class="block text-sm mb-1">Zip</label>
+            <input name="zip" class="input" value="<%= current?.zip || '' %>">
+          </div>
+        </div>
+
+        <div class="col-span-2 flex items-center justify-between mt-2">
+          <a href="/" class="px-3 py-2 rounded bg-gray-200">Close</a>
+
+          <% if (current && current._id) { %>
+          <form action="/admin/employees/<%= current._id %>/delete" method="POST"
+                onsubmit="return confirm('Delete this employee?')" class="inline">
+            <button class="px-3 py-2 rounded bg-red-100 text-red-700">Delete</button>
+          </form>
+          <% } %>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+
+<style>
+.input { @apply w-full border rounded px-3 py-2; }
+</style>
+
+<script>
+  // Toggle password reset fields for existing employee
+  const t = document.getElementById('resetPwToggle');
+  if (t) {
+    const pw = document.querySelector('input[name="password"]');
+    const pw2 = document.querySelector('input[name="password2"]');
+    t.addEventListener('change', () => {
+      const on = t.checked;
+      pw.disabled = pw2.disabled = !on;
+      if (!on) { pw.value = ''; pw2.value = ''; }
+    });
+  }
+</script>

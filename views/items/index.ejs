@@ -1,0 +1,33 @@
+<div class="bg-white p-6 rounded shadow">
+  <div class="flex items-center justify-between">
+    <h2 class="text-xl font-semibold italic">Item Pricing</h2>
+    <a href="/items/new/edit" class="px-3 py-1 rounded bg-lime-300 hover:bg-lime-400">Add New</a>
+  </div>
+  <table class="w-full mt-4 text-sm">
+    <thead><tr class="bg-gray-100">
+      <th class="p-2">No</th><th>Item</th><th>Sub</th><th>Description</th>
+      <th>CRV</th><th>Price</th><th>Redem</th><th>Weight</th><th>Scrap</th><th></th>
+    </tr></thead>
+    <tbody>
+    <% items.forEach(i => { %>
+      <tr class="border-b">
+        <td class="p-2"><%= i.itemNo || '' %></td>
+        <td><%= i.item || '' %></td>
+        <td><%= i.subItem || '' %></td>
+        <td><%= i.description %></td>
+        <td>$<%= (i.crv||0).toFixed(2) %></td>
+        <td>$<%= (i.price||0).toFixed(2) %></td>
+        <td><%= (i.redeemRate||0).toFixed(2) %></td>
+        <td><%= (i.weight||0).toFixed(6) %></td>
+        <td><input type="checkbox" disabled <%= i.scrap ? 'checked' : '' %>></td>
+        <td class="text-right">
+          <a class="text-blue-600 hover:underline" href="/items/<%= i._id %>/edit">Edit</a>
+          <form action="/items/<%= i._id %>/delete" method="POST" class="inline">
+            <button class="text-red-600 ml-3 hover:underline" onclick="return confirm('Delete item?')">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+    </tbody>
+  </table>
+</div>
