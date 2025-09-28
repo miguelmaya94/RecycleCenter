@@ -11,24 +11,23 @@ const itemsRouter = require('./routes/items.routes');
 const customersRouter = require('./routes/customers.routes');
 const invoicesRouter = require('./routes/invoices.routes');
 const adminRouter = require('./routes/admin.routes');
-const authRouter = require('./routes/auth.routes'); // NEW
+const authRouter = require('./routes/auth.routes');
+const marketplaceRouter = require('./routes/marketplace.routes'); // ✅
 
-// Middleware
 const { ensureAuth, ensureRole } = require('./middleware/auth');
 
+// ✅ Create the app FIRST
 const app = express();
 
-// Body parsing
+// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-// Static + views
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 app.set('layout', 'layouts/layout');
 
-// Session
+// Sessions
 app.use(session({
   secret: process.env.SESSION_SECRET || 'keyboardcat',
   resave: false,
@@ -42,20 +41,32 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
-// Global locals (so layout has a title by default)
+// Globals
 app.use((req, res, next) => {
   res.locals.title = 'Recycle Center';
   res.locals.user = req.session.user || null;
   next();
 });
 
-// 🔐 Auth routes
+// Routes
 app.use('/', authRouter);
+app.use('/items', ensureRole('business'), itemsRouter);
+app.use('/customers', ensureRole('business'), customersRouter);
+app.use('/invoices', ensureRole('business'), invoicesRouter);
+app.use('/admin', ensureRole('superadmin'), adminRouter);
 
-// Root redirect/splash
+// ✅ Marketplace route goes AFTER app is initialized
+app.use('/marketplace', ensureRole('business'), marketplaceRouter);
+
+// Dashboards
+app.get('/dashboard/business', ensureRole('business'), (req, res) => res.render('dashboards/business'));
+app.get('/dashboard/user', ensureRole('user'), (req, res) => res.render('dashboards/user'));
+app.get('/dashboard/sponsor', ensureRole('sponsor'), (req, res) => res.render('dashboards/sponsor'));
+app.get('/dashboard/admin', ensureRole('superadmin'), (req, res) => res.render('dashboards/admin'));
+
+// Root route
 app.get('/', (req, res) => {
-  if (!req.session.user) return res.redirect('/login'); // splash handler will render page
-  // already logged in → redirect by role
+  if (!req.session.user) return res.redirect('/login');
   switch (req.session.user.role) {
     case 'business': return res.redirect('/dashboard/business');
     case 'user': return res.redirect('/dashboard/user');
@@ -64,20 +75,6 @@ app.get('/', (req, res) => {
     default: return res.redirect('/login');
   }
 });
-
-// 📊 Dashboards
-app.get('/dashboard/business', ensureRole('business'), (req, res) => res.render('dashboards/business'));
-app.get('/dashboard/user', ensureRole('user'), (req, res) => res.render('dashboards/user'));
-app.get('/dashboard/sponsor', ensureRole('sponsor'), (req, res) => res.render('dashboards/sponsor'));
-app.get('/dashboard/admin', ensureRole('superadmin'), (req, res) => res.render('dashboards/admin'));
-
-// 📦 Business-only routes
-app.use('/items', ensureRole('business'), itemsRouter);
-app.use('/customers', ensureRole('business'), customersRouter);
-app.use('/invoices', ensureRole('business'), invoicesRouter);
-
-// 👑 Superadmin-only routes
-app.use('/admin', ensureRole('superadmin'), adminRouter);
 
 // Start server
 const PORT = process.env.PORT || 3000;

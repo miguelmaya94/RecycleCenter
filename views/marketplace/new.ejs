@@ -1,0 +1,18 @@
+<main class="mx-auto max-w-lg p-6">
+  <h1 class="text-xl font-bold mb-4">Create New Listing</h1>
+
+  <form method="POST" action="/marketplace" class="grid gap-4">
+    <label>Material <input type="text" name="material" class="input" required></label>
+    <label>Quantity <input type="number" name="quantity" class="input" required></label>
+    <label>Unit 
+      <select name="unit" class="input">
+        <option value="kg">kg</option>
+        <option value="lbs">lbs</option>
+        <option value="tons">tons</option>
+      </select>
+    </label>
+    <label>Starting Price ($) <input type="number" name="startingPrice" class="input" required></label>
+    <label>Description <textarea name="description" class="input"></textarea></label>
+    <button class="bg-emerald-600 text-white px-4 py-2 rounded">Create</button>
+  </form>
+</main>

@@ -11,6 +11,8 @@
         <a href="/customers" class="hover:underline">Customers</a>
         <a href="/items" class="hover:underline">Items</a>
         <a href="/admin/company" class="hover:underline">Admin</a>
+        <!-- ✅ New Marketplace tab -->
+        <a href="/marketplace" class="hover:underline">Marketplace</a>
       <% } %>
 
       <% if (user.role === 'user') { %>
@@ -23,6 +25,8 @@
 
       <% if (user.role === 'superadmin') { %>
         <a href="/dashboard/admin" class="hover:underline">Admin Panel</a>
+        <!-- (Optional) Superadmin marketplace oversight -->
+        <a href="/marketplace" class="hover:underline">Marketplace</a>
       <% } %>
     </div>
 
