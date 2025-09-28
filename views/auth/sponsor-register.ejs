@@ -1,13 +1,13 @@
 <%- include('../partials/navbar') %>
 
 <main class="max-w-lg mx-auto mt-12 bg-white p-8 rounded shadow">
-  <h1 class="text-2xl font-bold mb-6 text-center">User Registration</h1>
+  <h1 class="text-2xl font-bold mb-6 text-center">Sponsor Registration</h1>
 
   <% if (typeof error !== 'undefined') { %>
     <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4"><%= error %></div>
   <% } %>
 
-  <form method="POST" action="/register" class="space-y-4">
+  <form method="POST" action="/sponsor/register" class="space-y-4">
     <label class="block">
       <span class="text-sm">Email</span>
       <input type="email" name="email" required class="w-full border rounded px-3 py-2">
@@ -18,10 +18,10 @@
       <input type="password" name="password" required class="w-full border rounded px-3 py-2">
     </label>
 
-    <input type="hidden" name="role" value="user">
+    <input type="hidden" name="role" value="sponsor">
 
-    <button class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded">
-      Create User Account
+    <button class="w-full bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded">
+      Create Sponsor Account
     </button>
   </form>
 </main>

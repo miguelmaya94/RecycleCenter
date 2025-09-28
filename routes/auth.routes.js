@@ -1,17 +1,25 @@
-// routes/auth.routes.js
 const express = require('express');
 const router = express.Router();
-const auth = require('../controllers/auth.controller');
+const authController = require('../controllers/auth.controller');
 
-// Splash (GET) – show combined login/register page
-router.get('/login', auth.splash);
-router.get('/register', auth.splash);
+// Splash page
+router.get('/', authController.splash);
 
-// Login/Register (POST)
-router.post('/login', auth.login);
-router.post('/register', auth.register);
+// Auth routes
+router.get('/login', authController.loginForm);
+router.post('/login', authController.login);
+router.get('/logout', authController.logout);
 
-// Logout
-router.get('/logout', auth.logout);
+// User register
+router.get('/register', authController.registerForm);
+router.post('/register', authController.register);
+
+// Business register
+router.get('/business/register', authController.businessRegisterForm);
+router.post('/business/register', authController.businessRegister);
+
+// Sponsor register
+router.get('/sponsor/register', authController.sponsorRegisterForm);
+router.post('/sponsor/register', authController.sponsorRegister);
 
 module.exports = router;

@@ -1,0 +1,50 @@
+<%- include('../partials/navbar') %>
+
+<main class="max-w-3xl mx-auto bg-white p-6 rounded shadow">
+  <h1 class="text-2xl font-bold mb-4">Business Registration</h1>
+  
+  <form method="POST" action="/business/register" class="grid gap-4">
+    <label>
+      <span>Email</span>
+      <input type="email" name="email" required class="input">
+    </label>
+
+    <label>
+      <span>Password</span>
+      <input type="password" name="password" required class="input">
+    </label>
+
+    <label>
+      <span>Legal Business Name</span>
+      <input type="text" name="legalName" required class="input">
+    </label>
+
+    <label>
+      <span>Contact Name</span>
+      <input type="text" name="contactName" required class="input">
+    </label>
+
+    <label>
+      <span>Phone</span>
+      <input type="text" name="phone" required class="input">
+    </label>
+
+    <label>
+      <span>Address</span>
+      <input type="text" name="address" required class="input">
+    </label>
+
+    <!-- Optional fields -->
+    <label><span>DBA</span><input type="text" name="dbaName" class="input"></label>
+    <label><span>License #</span><input type="text" name="licenseNumber" class="input"></label>
+
+    <div class="flex gap-3 mt-4">
+      <button class="bg-lime-600 text-white px-4 py-2 rounded hover:bg-lime-700">Register</button>
+      <a href="/" class="bg-gray-300 px-4 py-2 rounded">Cancel</a>
+    </div>
+  </form>
+</main>
+
+<style>
+  .input { @apply w-full border rounded px-3 py-2; }
+</style>

@@ -1,0 +1,47 @@
+<%- include('../partials/navbar') %>
+
+<main class="max-w-lg mx-auto mt-12 bg-white p-8 rounded shadow">
+  <h1 class="text-2xl font-bold mb-6 text-center">Business Registration</h1>
+
+  <% if (typeof error !== 'undefined') { %>
+    <div class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4"><%= error %></div>
+  <% } %>
+
+  <form method="POST" action="/business/register" class="space-y-4">
+    <label class="block">
+      <span class="text-sm">Email</span>
+      <input type="email" name="email" required class="w-full border rounded px-3 py-2">
+    </label>
+
+    <label class="block">
+      <span class="text-sm">Password</span>
+      <input type="password" name="password" required class="w-full border rounded px-3 py-2">
+    </label>
+
+    <label class="block">
+      <span class="text-sm">Legal Business Name</span>
+      <input type="text" name="legalName" required class="w-full border rounded px-3 py-2">
+    </label>
+
+    <label class="block">
+      <span class="text-sm">Contact Name</span>
+      <input type="text" name="contactName" required class="w-full border rounded px-3 py-2">
+    </label>
+
+    <label class="block">
+      <span class="text-sm">Phone</span>
+      <input type="text" name="phone" required class="w-full border rounded px-3 py-2">
+    </label>
+
+    <label class="block">
+      <span class="text-sm">Address</span>
+      <input type="text" name="address" required class="w-full border rounded px-3 py-2">
+    </label>
+
+    <input type="hidden" name="role" value="business">
+
+    <button class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+      Create Business Account
+    </button>
+  </form>
+</main>
