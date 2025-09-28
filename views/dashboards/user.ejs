@@ -1,13 +1,13 @@
-<%- include('../partials/head') %>
-<%- include('../partials/navbar') %>
-<main class="mx-auto max-w-6xl px-4 py-8">
-  <h2 class="text-2xl font-bold mb-6">👤 User Dashboard</h2>
-      <a href="/logout" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-      Logout
-    </a>
-  <div class="grid sm:grid-cols-2 gap-6">
-    <div class="bg-white shadow rounded p-6"><h3 class="font-semibold">Recycling Activity</h3></div>
-    <div class="bg-white shadow rounded p-6"><h3 class="font-semibold">Invoices</h3></div>
+<main class="mx-auto max-w-4xl px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">User Dashboard</h1>
+  <p class="mb-4">Welcome, <%= user ? user.email : '' %>! 👋</p>
+
+  <div class="bg-white rounded shadow p-6">
+    <h2 class="text-xl font-semibold mb-3">Your Recycling Progress</h2>
+    <p class="text-gray-600">Here you will see your recycling history, totals, and achievements.</p>
+
+    <div class="mt-4">
+      <p class="text-sm text-gray-500">📊 Progress tracking will go here.</p>
+    </div>
   </div>
 </main>
-<%- include('../partials/foot') %>

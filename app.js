@@ -6,14 +6,19 @@ const session = require('express-session');
 const MongoStore = require('connect-mongo');
 require('dotenv').config();
 
+// Routers
 const itemsRouter = require('./routes/items.routes');
 const customersRouter = require('./routes/customers.routes');
 const invoicesRouter = require('./routes/invoices.routes');
 const adminRouter = require('./routes/admin.routes');
+const authRouter = require('./routes/auth.routes'); // NEW
+
+// Middleware
+const { ensureAuth, ensureRole } = require('./middleware/auth');
 
 const app = express();
 
-// Middleware
+// Body parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
@@ -37,14 +42,42 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.error(err));
 
+// Global locals (so layout has a title by default)
+app.use((req, res, next) => {
+  res.locals.title = 'Recycle Center';
+  res.locals.user = req.session.user || null;
+  next();
+});
 
-  
-// Routes
-app.get('/', (req, res) => res.render('main-menu'));
-app.use('/items', itemsRouter);
-app.use('/customers', customersRouter);
-app.use('/invoices', invoicesRouter);
-app.use('/admin', adminRouter);
+// 🔐 Auth routes
+app.use('/', authRouter);
+
+// Root redirect/splash
+app.get('/', (req, res) => {
+  if (!req.session.user) return res.redirect('/login'); // splash handler will render page
+  // already logged in → redirect by role
+  switch (req.session.user.role) {
+    case 'business': return res.redirect('/dashboard/business');
+    case 'user': return res.redirect('/dashboard/user');
+    case 'sponsor': return res.redirect('/dashboard/sponsor');
+    case 'superadmin': return res.redirect('/dashboard/admin');
+    default: return res.redirect('/login');
+  }
+});
+
+// 📊 Dashboards
+app.get('/dashboard/business', ensureRole('business'), (req, res) => res.render('dashboards/business'));
+app.get('/dashboard/user', ensureRole('user'), (req, res) => res.render('dashboards/user'));
+app.get('/dashboard/sponsor', ensureRole('sponsor'), (req, res) => res.render('dashboards/sponsor'));
+app.get('/dashboard/admin', ensureRole('superadmin'), (req, res) => res.render('dashboards/admin'));
+
+// 📦 Business-only routes
+app.use('/items', ensureRole('business'), itemsRouter);
+app.use('/customers', ensureRole('business'), customersRouter);
+app.use('/invoices', ensureRole('business'), invoicesRouter);
+
+// 👑 Superadmin-only routes
+app.use('/admin', ensureRole('superadmin'), adminRouter);
 
 // Start server
 const PORT = process.env.PORT || 3000;

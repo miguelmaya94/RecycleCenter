@@ -1,0 +1,14 @@
+<main class="mx-auto max-w-5xl px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">Invoices</h1>
+
+  <a href="/invoices/new" class="bg-lime-300 px-4 py-2 rounded hover:bg-lime-400">+ New Invoice</a>
+
+  <ul class="mt-6 bg-white rounded shadow divide-y">
+    <% invoices.forEach(inv => { %>
+      <li class="p-4 flex justify-between">
+        <span>Invoice #<%= inv._id %></span>
+        <a href="/invoices/<%= inv._id %>" class="text-blue-600 hover:underline">View</a>
+      </li>
+    <% }) %>
+  </ul>
+</main>

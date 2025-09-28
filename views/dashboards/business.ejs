@@ -1,14 +1,30 @@
-<%- include('../partials/head') %>
-<%- include('../partials/navbar') %>
-<main class="mx-auto max-w-6xl px-4 py-8">
-  <h2 class="text-2xl font-bold mb-6">🏢 Business Dashboard</h2>
-      <a href="/logout" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+<main class="mx-auto max-w-4xl px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">Welcome, <%= user ? user.email : '' %>!</h1>
+
+  <div class="bg-white rounded shadow p-6">
+    <div class="bg-lime-300 -mx-6 -mt-6 p-4 rounded-t">
+      <h2 class="text-xl font-semibold italic">SaaS Main Menu</h2>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4 mt-6">
+      <a href="/invoices" class="block text-center bg-lime-200 hover:bg-lime-300 rounded py-3 shadow">
+        Invoices
+      </a>
+      <a href="/customers" class="block text-center bg-lime-200 hover:bg-lime-300 rounded py-3 shadow">
+        Customers
+      </a>
+      <a href="/items" class="block text-center bg-lime-200 hover:bg-lime-300 rounded py-3 shadow">
+        Item Management
+      </a>
+      <a href="/admin/company" class="block text-center bg-lime-200 hover:bg-lime-300 rounded py-3 shadow">
+        Admin
+      </a>
+    </div>
+  </div>
+
+  <div class="mt-6">
+    <a href="/logout" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
       Logout
     </a>
-  <div class="grid sm:grid-cols-3 gap-6">
-    <div class="bg-white shadow rounded p-6"><h3 class="font-semibold">Customers</h3></div>
-    <div class="bg-white shadow rounded p-6"><h3 class="font-semibold">Invoices</h3></div>
-    <div class="bg-white shadow rounded p-6"><h3 class="font-semibold">Reports</h3></div>
   </div>
 </main>
-<%- include('../partials/foot') %>

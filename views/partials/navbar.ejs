@@ -1,12 +1,39 @@
-<header class="bg-lime-600 text-white shadow">
-  <div class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-    <div class="text-xl font-semibold">Recycling SaaS</div>
-    <nav class="flex gap-4 text-sm">
-      <a class="hover:underline" href="/">Home</a>
-      <a class="hover:underline" href="/dashboard/user">User</a>
-      <a class="hover:underline" href="/dashboard/business">Business</a>
-      <a class="hover:underline" href="/dashboard/sponsor">Sponsor</a>
-      <a class="hover:underline" href="/dashboard/admin">Admin</a>
-    </nav>
+<nav class="bg-gray-800 text-white px-6 py-3 flex items-center justify-between">
+  <div class="font-bold text-lg">
+    Recycle Center
   </div>
-</header>
+
+  <% if (user) { %>
+    <div class="flex gap-4">
+      <% if (user.role === 'business') { %>
+        <a href="/dashboard/business" class="hover:underline">Dashboard</a>
+        <a href="/invoices" class="hover:underline">Invoices</a>
+        <a href="/customers" class="hover:underline">Customers</a>
+        <a href="/items" class="hover:underline">Items</a>
+        <a href="/admin/company" class="hover:underline">Admin</a>
+      <% } %>
+
+      <% if (user.role === 'user') { %>
+        <a href="/dashboard/user" class="hover:underline">My Recycling</a>
+      <% } %>
+
+      <% if (user.role === 'sponsor') { %>
+        <a href="/dashboard/sponsor" class="hover:underline">Sponsor Dashboard</a>
+      <% } %>
+
+      <% if (user.role === 'superadmin') { %>
+        <a href="/dashboard/admin" class="hover:underline">Admin Panel</a>
+      <% } %>
+    </div>
+
+    <div>
+      <span class="mr-3"><%= user.email %></span>
+      <a href="/logout" class="bg-red-600 px-3 py-1 rounded hover:bg-red-700">Logout</a>
+    </div>
+  <% } else { %>
+    <div>
+      <a href="/login" class="hover:underline">Login</a>
+      <a href="/register" class="ml-3 hover:underline">Register</a>
+    </div>
+  <% } %>
+</nav>

@@ -1,14 +1,30 @@
-<%- include('../partials/head') %>
-<%- include('../partials/navbar') %>
-<main class="mx-auto max-w-6xl px-4 py-8">
-  <h2 class="text-2xl font-bold mb-6">⚙️ Admin Dashboard</h2>
-      <a href="/logout" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
-      Logout
-    </a>
-  <div class="grid sm:grid-cols-3 gap-6">
-    <div class="bg-white shadow rounded p-6"><h3 class="font-semibold">Users</h3></div>
-    <div class="bg-white shadow rounded p-6"><h3 class="font-semibold">Tenants</h3></div>
-    <div class="bg-white shadow rounded p-6"><h3 class="font-semibold">System Reports</h3></div>
+<main class="mx-auto max-w-5xl px-4 py-8">
+  <h1 class="text-2xl font-bold mb-6">Super Admin Dashboard</h1>
+  <p class="mb-4">Welcome back, <%= user ? user.email : '' %> 🛠️</p>
+
+  <div class="grid grid-cols-2 gap-6">
+    <div class="bg-white rounded shadow p-6">
+      <h2 class="text-xl font-semibold mb-2">Manage Businesses</h2>
+      <p class="text-gray-600">View and manage recycling centers subscribed to the SaaS platform.</p>
+      <a href="/admin/company" class="mt-3 inline-block bg-lime-300 hover:bg-lime-400 px-4 py-2 rounded">Go</a>
+    </div>
+
+    <div class="bg-white rounded shadow p-6">
+      <h2 class="text-xl font-semibold mb-2">Manage Users</h2>
+      <p class="text-gray-600">Oversee individual recycling users on the platform.</p>
+      <a href="#" class="mt-3 inline-block bg-lime-300 hover:bg-lime-400 px-4 py-2 rounded">Go</a>
+    </div>
+
+    <div class="bg-white rounded shadow p-6">
+      <h2 class="text-xl font-semibold mb-2">Manage Sponsors</h2>
+      <p class="text-gray-600">View and manage sponsors and their campaigns.</p>
+      <a href="#" class="mt-3 inline-block bg-lime-300 hover:bg-lime-400 px-4 py-2 rounded">Go</a>
+    </div>
+
+    <div class="bg-white rounded shadow p-6">
+      <h2 class="text-xl font-semibold mb-2">Marketplace</h2>
+      <p class="text-gray-600">Oversee recycling bids and marketplace activity.</p>
+      <a href="#" class="mt-3 inline-block bg-lime-300 hover:bg-lime-400 px-4 py-2 rounded">Go</a>
+    </div>
   </div>
 </main>
-<%- include('../partials/foot') %>

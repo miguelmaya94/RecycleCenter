@@ -1,0 +1,17 @@
+<div class="max-w-md mx-auto bg-white p-6 rounded shadow">
+  <h2 class="text-xl font-semibold mb-4">Register</h2>
+
+  <form method="POST" action="/register" class="grid gap-4">
+    <label>Email <input type="email" name="email" class="w-full border rounded px-3 py-2" required></label>
+    <label>Password <input type="password" name="password" class="w-full border rounded px-3 py-2" required></label>
+    <label>
+      Role
+      <select name="role" class="w-full border rounded px-3 py-2">
+        <option value="business">Business</option>
+        <option value="user">User</option>
+        <option value="sponsor">Sponsor</option>
+      </select>
+    </label>
+    <button class="px-4 py-2 bg-lime-300 rounded hover:bg-lime-400">Register</button>
+  </form>
+</div>

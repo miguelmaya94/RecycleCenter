@@ -1,9 +1,18 @@
+// routes/invoices.routes.js
 const express = require('express');
 const router = express.Router();
-const c = require('../controllers/invoices.controller');
+const invoices = require('../controllers/invoices.controller');
 
-router.get('/new', c.newForm);
-router.post('/', c.create);
-router.get('/:id', c.show);
+// Show all invoices
+router.get('/', invoices.list);
+
+// Show new invoice form
+router.get('/new', invoices.newForm);
+
+// Save invoice
+router.post('/', invoices.create);
+
+// (optional) Show single invoice
+router.get('/:id', invoices.show);
 
 module.exports = router;
